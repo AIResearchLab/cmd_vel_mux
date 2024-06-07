@@ -2,10 +2,23 @@
 
 ## About
 
+This repository is an extention of the original [repository](https://github.com/kobuki-base/cmd_vel_mux) that combines all active public forks.
+
 A ROS 2 package for selecting among a number of incoming geometry_msg/msg/Twist messages, choosing the highest
 priority one to republish on the output topic.  It will automatically dislodge streams that are lower
 priority or that stop publishing for any reason.  The stream currently in use is published on the
 "active" topic.
+
+<br>
+
+## Merged forks
+
+|Version | Fork                                                                                             | Merged | Tested |
+|:---:	 |---	                                                                                            |:---:   |:---:	  |
+|0.1.0 	 | [indro-robotics/cmd_vel_mux](https://github.com/indro-robotics/cmd_vel_mux)  	                |&#9745; |&#9745; |
+|0.1.0 	 | [indro-robotics/cmd_vel_mux](https://github.com/indro-robotics/cmd_vel_mux)  	                |&#9745; |&#9745; |
+|0.1.0 	 | [slamcore/cmd_vel_mux](https://github.com/slamcore/cmd_vel_mux)  	                            |&#9745; |&#9745; |
+
 
 ## Published Topics
 * `/active` (`std_msgs/msg/String`) - A latched topic.  Publishes the "name" field of the currently active `geometry_msgs/msg/Twist` stream (see Parameters below), or "idle" if nothing is being a published.
