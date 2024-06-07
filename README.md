@@ -13,7 +13,7 @@ priority or that stop publishing for any reason.  The stream currently in use is
 
 ## Merged forks
 
-|Version | Fork                                                                                             | Merged | Tested |
+|Version | Fork                                                                                          | Merged | Tested |
 |:---:	 |---	                                                                                            |:---:   |:---:	  |
 |0.1.0 	 | [indro-robotics/cmd_vel_mux](https://github.com/indro-robotics/cmd_vel_mux)  	                |&#9745; |&#9745; |
 |0.1.0 	 | [indro-robotics/cmd_vel_mux](https://github.com/indro-robotics/cmd_vel_mux)  	                |&#9745; |&#9745; |
@@ -21,19 +21,28 @@ priority or that stop publishing for any reason.  The stream currently in use is
 
 
 ## Published Topics
-* `/active` (`std_msgs/msg/String`) - A latched topic.  Publishes the "name" field of the currently active `geometry_msgs/msg/Twist` stream (see Parameters below), or "idle" if nothing is being a published.
-* `/cmd_vel` (`geometry_msgs/msg/Twist`) - The current `geometry_msgs/msg/Twist` message.  The values from the current highest-priority `geometry_msgs/msg/Twist` are republished here without change.
+
+|Topic      | Type                      | Description |
+|:---	      |:---	                      |:---         |
+|`/active`	 | `std_msgs/msg/String`     | A latched topic.  Publishes the "name" field of the currently active `geometry_msgs/msg/Twist` stream (see Parameters below), or "idle" if nothing is being a published.|
+|`/mux/output/cmd_vel` | `geometry_msgs/msg/Twist` | The current `geometry_msgs/msg/Twist` message.  The values from the current highest-priority `geometry_msgs/msg/Twist` are republished here without change.|
+
 
 ## Subscribed Topics
 * `/any` (`geometry_msgs/msg/Twist`) - For each named input (see Parameters below), a topic of type `geometry_msgs/msg/Twist` is subscribed to based on the `topic` parameter.  The data from the highest-priority of these inputs is republished on the output `/cmd_vel`.
 
+
 ## Parameters
-The cmd_vel_mux node uses a dictionary to hold the subscribers, with `name` being the key of each element:
-* `name` (string) - The "name" of each of the input `geometry_msgs/msg/Twist` topics.  This is what will be published on the `active` topic when the currently active publisher changes.
-* `topic` (string) - The "topic" corresponding to each of the input `geometry_msgs/msg/Twist` topics.  This is what will be subscribed to.
-* `timeout` (double) - The "timeout" of each of the input `geometry_msgs/msg/Twist` topics.  If no data is received on the input topic for this amount of time, the input will be automatically disabled.
-* `priority` (integer) - The "priority" of each of the input `geometry_msgs/msg/Twist` topics.  The higher the number, the higher the priority.  Higher priority topics will dislodge lower priority topics and start publishing to the output topic automatically.
-* `short_desc` (string) - The "short description" of each of the input `geometry_msgs/msg/Twist` topics.  This is informational only.
+
+The cmd_vel_mux node uses a dictionary to hold the subscribers, with `name` being the key of each element. Following parameters corresponds to each of the input `geometry_msgs/msg/Twist` topics. 
+
+|Parameter    | Type          | Description | Example |
+|:---	        |:---	          |:---         | :---    |
+|`name`       | string        | This is what will be published on the `active` topic when the currently active publisher changes. | `default_input` |
+|`topic`      | string        | This is what will be subscribed to.| `mux/input/default` |
+|`timeout`    | double        | If no data is received on the input topic for this amount of time, the input will be automatically disabled.| `0.1` |
+|`priority`   | integer       | The higher the number, the higher the priority.  Higher priority topics will dislodge lower priority topics and start publishing to the output topic automatically.| `0` |
+|`short_desc` | string        | Short Description of the input and this is informational only..| `The default cmd_vel, controllers unaware that we are multiplexing cmd_vel should come here` |
 
 See config/cmd_vel_mux_params.yaml for an example of how to set these up.
 
